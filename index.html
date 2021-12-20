@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open Sans">
+<style>
+    body {
+        font-family: 'Open Sans';
+    }
+
+    a {
+        font-color: blue;
+    }
+
+    a:visited {
+        color: blueviolet;
+    }
+
+    #loading {
+        width: 100vw;
+        height: 100vh;
+        background-color: #fff;
+        transition: all 1s;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+    }
+
+    .loader {
+        width: 100px;
+        height: 100px;
+        margin: 400px auto;
+        background-color: #000;
+        border-radius: 100%;
+    }
+
+    .loaded {
+        opacity: 0;
+        visibility: hidden;
+    }
+</style>
+<!--<script src="https://cdn.tailwindcss.com"></script>-->
+<script>
+  window.onload = () => {
+    const loader = document.getElementById('loading');
+    loader.classList.add('loaded');
+  }
+</script>
+<body>
+<div id="loading">
+  <div class="loader"></div>
+</div>
+<h1>Pacy's Room</h1>
+<ul>
+  <li>
+    <a href="./diary">
+      Diary
+    </a>
+  </li>
+  <li>
+    <a href="./technology">
+      Technology
+    </a>
+  </li>
+  <li>
+    <a href="./others">
+      Others
+    </a>
+  </li>
+</ul>
+</body>
+</html>
