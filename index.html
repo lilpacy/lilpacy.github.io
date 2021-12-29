@@ -1568,6 +1568,13 @@
           }
       }
 
+      @keyframes hurueru {
+          0% {transform: translate(0px, 0px) rotateZ(0deg)}
+          25% {transform: translate(2px, 2px) rotateZ(1deg)}
+          50% {transform: translate(0px, 2px) rotateZ(0deg)}
+          75% {transform: translate(2px, 0px) rotateZ(-1deg)}
+          100% {transform: translate(0px, 0px) rotateZ(0deg)}
+      }
 
   </style>
   <link rel="stylesheet" href="css/dracula.css">
@@ -1575,23 +1582,31 @@
   <link rel="stylesheet" href="css/codemirror.css">
   <link rel="stylesheet" href="css/main.min.css">
 
-  <script></script>
+  <script>
+    function reset() {
+      window.document.body.style.animation = ""
+    }
+    function shake() {
+      window.document.body.addEventListener('animationend', reset)
+      window.document.body.style.animation = "hurueru .1s 1"
+    }
+  </script>
 </head>
 <body data-theme="default">
 <h1>Pacy's Space</h1>
 <ul>
   <li>
-    <a href="diary.html">
+    <a id="diary" onclick="shake()">
       Diary
     </a>
   </li>
   <li>
-    <a href="technology.html">
+    <a id="technology" href="technology.html">
       Technology
     </a>
   </li>
   <li>
-    <a href="others.html">
+    <a id="others" onclick="shake()">
       Others
     </a>
   </li>
