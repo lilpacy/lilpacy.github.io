@@ -3,8 +3,8 @@ all: technology.html
 technology.html: tech-links tech-index
 
 tech-links:
-	find technology -type f | \
-	xargs -I {} printf "<a href='{}'>{}</a><br />\n" | \
+	find technology -type f -maxdepth 1 | \
+	xargs -I {} printf "`cat link.template`" | \
 	tee tmp/tech-links
 
 tech-index:
