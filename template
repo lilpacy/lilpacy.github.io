@@ -1578,23 +1578,8 @@
   <script></script>
 </head>
 <body data-theme="default">
-<h1>Pacy's Space</h1>
-<ul>
-  <li>
-    <a href="diary.html">
-      Diary
-    </a>
-  </li>
-  <li>
-    <a href="technology.html">
-      Technology
-    </a>
-  </li>
-  <li>
-    <a href="others.html">
-      Others
-    </a>
-  </li>
+<h1>${TITLE}</h1>
+${LINKS}
 </ul>
 </body>
 </html>
