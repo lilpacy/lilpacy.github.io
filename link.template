@@ -1,1 +1,1 @@
-<a href='{}'>{}</a><br />\n
+<a href='${LINK}'>${TEXT}</a><br />
