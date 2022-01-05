@@ -4,7 +4,7 @@ technology.html: tech-links tech-index
 
 tech-links:
 	find technology -type f -maxdepth 1 | \
-	xargs -I {} basename {} | \
+	xargs -I {} basename {} .html | \
 	xargs -I {} /bin/bash -c "cat link.template | LINK='technology/{}' TEXT='{}' envsubst" | \
 	tee tmp/tech-links
 

@@ -1,1 +1,1 @@
-<a href='${LINK}'>${TEXT}</a><br />
+<a href='${LINK}.html'>${TEXT}</a><br />
