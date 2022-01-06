@@ -1568,13 +1568,6 @@
           }
       }
 
-      @keyframes hurueru {
-          0% {transform: translate(0px, 0px) rotateZ(0deg)}
-          25% {transform: translate(2px, 2px) rotateZ(1deg)}
-          50% {transform: translate(0px, 2px) rotateZ(0deg)}
-          75% {transform: translate(2px, 0px) rotateZ(-1deg)}
-          100% {transform: translate(0px, 0px) rotateZ(0deg)}
-      }
 
   </style>
   <link rel="stylesheet" href="css/dracula.css">
@@ -1582,34 +1575,11 @@
   <link rel="stylesheet" href="css/codemirror.css">
   <link rel="stylesheet" href="css/main.min.css">
 
-  <script>
-    function reset() {
-      window.document.body.style.animation = ""
-    }
-    function shake() {
-      window.document.body.addEventListener('animationend', reset)
-      window.document.body.style.animation = "hurueru .1s 1"
-    }
-  </script>
+  <script></script>
 </head>
 <body data-theme="default">
-<h1>Pacy's Sandbox</h1>
-<ul>
-  <li>
-    <a id="diary" href="diary.html">
-      Diary
-    </a>
-  </li>
-  <li>
-    <a id="technology" href="technology.html">
-      Technology
-    </a>
-  </li>
-  <li>
-    <a id="others" href="#0" onclick="shake()">
-      Others
-    </a>
-  </li>
+<h1>Diary</h1>
+<a href='diary/人生とは「らしさ」の追求である.html'>人生とは「らしさ」の追求である</a><br />
 </ul>
 </body>
 </html>
