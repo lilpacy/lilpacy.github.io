@@ -5,7 +5,7 @@ technology.html: tech-links tech-index
 tech-links:
 	find technology -type f -maxdepth 1 | \
 	xargs -I {} basename {} .html | \
-	xargs -I {} /bin/bash -c "cat link.template | LINK=technology/\"\`echo '{}' | nkf -WwMQ | tr = % | tr -d '\n' | sed -e 's/%%/%/g' \`\" TEXT='{}' envsubst" | \
+	xargs -I {} /bin/bash -c "cat link.template | LINK=technology/\"\`echo '{}' | iconv -f UTF-8-MAC -t UTF-8 | nkf -WwMQ | tr = % | tr -d '\n' | sed -e 's/%%/%/g' \`\" TEXT='{}' envsubst" | \
 	tee tmp/tech-links
 
 tech-index:
@@ -20,7 +20,7 @@ diary.html: diary-links diary-index
 diary-links:
 	find diary -type f -maxdepth 1 | \
 	xargs -I {} basename {} .html | \
-	xargs -I {} /bin/bash -c "cat link.template | LINK=diary/\"\`echo '{}' | nkf -WwMQ | tr = % | tr -d '\n' | sed -e 's/%%/%/g' \`\" TEXT='{}' envsubst" | \
+	xargs -I {} /bin/bash -c "cat link.template | LINK=diary/\"\`echo '{}' | iconv -f UTF-8-MAC -t UTF-8 | nkf -WwMQ | tr = % | tr -d '\n' | sed -e 's/%%/%/g' \`\" TEXT='{}' envsubst" | \
 	tee tmp/diary-links
 
 diary-index:
