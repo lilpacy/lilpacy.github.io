@@ -1388,16 +1388,17 @@ body p {
         horizontalTilted: 0
       }
       d3.timer(function (elapsed) {
-        projection.rotate([config.speed*elapsed-120, config.verticalTilted, config.horizontalTilted]);
-        // projection2.rotate([config.speed*elapsed-120, config.verticalTilted, config.horizontalTilted]);
-        g.selectAll('path').attr("d", path);
-        // svg.selectAll("path").attr("d", path2).style('fill', 'rgba(0,0,0,0.1)');
+        projection.reflectX(true).rotate([config.speed*elapsed-120, config.verticalTilted, config.horizontalTilted]);
+        // htmlの階層的には上だが実際の表示では下なのでこっちを透過して背景にする
+        g.selectAll('path').attr("d", path).style('fill', 'rgba(0,0,0,0.1)');
+        projection2.rotate([config.speed*elapsed-120+180, config.verticalTilted, config.horizontalTilted]);
+        g2.selectAll('path').attr("d", path2);
       });
     }
 
     // 読めない
     g.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path);
-    g2.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path2).style('fill', 'rgba(0,0,0,0.1)');
+    g2.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path2)//.style('fill', 'rgba(0,0,0,0.1)');
     Rotate()
 
   </script>
