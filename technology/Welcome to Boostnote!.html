@@ -1365,31 +1365,39 @@ body p {
 
     const svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
 
-    const projection = d3Geo.geoOrthographic().scale(scale).rotate([250, 0])
+    const projection = d3Geo.geoOrthographic()
+      .scale(scale)
       .translate([width / 2, height / 2]);
     const path = d3Geo.geoPath(projection);
-
     const g = svg.append('g');
+
+    const projection2 = d3Geo.geoOrthographic()
+      .scale(scale)
+      .rotate([180, 0, 0])
+      .translate([width / 2, height / 2]);
+    const path2 = d3Geo.geoPath(projection2);
+    const g2 = svg.append('g');
 
     const data = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     const countries = topojson.feature(data, data.objects.countries);
 
     function Rotate() {
-      const config = {
-        speed: 0.010,
-        verticalTilted: -10,
-        horizontalTilted: 0
-      }
-      d3.timer(function (elapsed) {
-        projection.rotate(
-          [config.speed*elapsed-120,
-            config.verticalTilted,
-            config.horizontalTilted]);
-        svg.selectAll("path").attr("d", path);
-      });
+      // const config = {
+      //   speed: 0.010,
+      //   verticalTilted: -10,
+      //   horizontalTilted: 0
+      // }
+      // d3.timer(function (elapsed) {
+      //   projection2.reflectX(true).rotate([config.speed*elapsed-120 + 180, config.verticalTilted, config.horizontalTilted]);
+      //   svg.selectAll("path").attr("d", path2).style('fill', "rgba(0,0,0,0.1)")
+      //   projection.reflectX(false).rotate([config.speed*elapsed-120, config.verticalTilted, config.horizontalTilted]);
+      //   svg.selectAll("path").attr("d", path).style('fill', "#000");
+      // });
     }
 
+    // 読めない
     g.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path);
+    g2.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path2).style('fill', 'rgba(0,0,0,0.1)');
     Rotate()
 
   </script>
