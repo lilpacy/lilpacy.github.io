@@ -1359,12 +1359,13 @@ body p {
     import * as d3Geo from "https://cdn.skypack.dev/d3-geo@3";
     import * as topojson from "https://cdn.skypack.dev/topojson@3";
 
-    const width = 900;
-    const height = 600;
+    const scale = 170 * 1.5
+    const width = 900
+    const height = 600
 
     const svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
 
-    const projection = d3Geo.geoMercator().scale(140)
+    const projection = d3Geo.geoOrthographic().scale(scale).rotate([250, 0])
       .translate([width / 2, height / 1.4]);
     const path = d3Geo.geoPath(projection);
 
