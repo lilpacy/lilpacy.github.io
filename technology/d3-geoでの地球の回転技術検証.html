@@ -1398,6 +1398,7 @@ body p {
 
     // 読めない
     g.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path);
+    svg.append('path').datum({type: 'Sphere'}).attr('class', 'water').attr('d', path).style('fill', 'rgb(0,0,0,0.1)')
     g2.selectAll('path').data(countries.features).enter().append('path').attr('class', 'country').attr('d', path2)//.style('fill', 'rgba(0,0,0,0.1)');
     Rotate()
 
