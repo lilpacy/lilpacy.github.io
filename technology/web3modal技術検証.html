@@ -1639,6 +1639,59 @@
       console.log("Web3Modal instance is", web3Modal);
     }
     /**
+     * Kick in the UI action after Web3modal dialog has chosen a provider
+     */
+    async function fetchAccountData() {
+
+      // Get a Web3 instance for the wallet
+      const web3 = new Web3(provider);
+      console.log("Web3 instance is", web3);
+
+      // Get connected chain id from Ethereum node
+      const chainId = await web3.eth.getChainId();
+      // Load chain information over an HTTP API
+      const chainData = evmChains.getChain(chainId);
+      document.querySelector("#network-name").textContent = chainData.name;
+
+      // Get list of accounts of the connected wallet
+      const accounts = await web3.eth.getAccounts();
+
+      // MetaMask does not give you all accounts, only the selected account
+      console.log("Got accounts", accounts);
+      const selectedAccount = accounts[0];
+
+      document.querySelector("#selected-account").textContent = selectedAccount;
+
+      // Go through all accounts and get their ETH balance
+      [selectedAccount].map(async (address) => {
+        const balance = await web3.eth.getBalance(address);
+        // ethBalance is a BigNumber instance
+        // https://github.com/indutny/bn.js/
+        const ethBalance = web3.utils.fromWei(balance, "ether");
+        const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4);
+        // Fill in the templated row and put in the document
+        const clone = template.content.cloneNode(true);
+        document.querySelector("#address").textContent = address;
+        document.querySelector("#balance").textContent = humanFriendlyBalance;
+        accountContainer.appendChild(clone);
+      });
+    }
+    /**
+     * Fetch account data for UI when
+     * - User switches accounts in wallet
+     * - User switches networks in wallet
+     * - User connects wallet initially
+     */
+    async function refreshAccountData() {
+      // Disable button while UI is loading.
+      // fetchAccountData() will take a while as it communicates
+      // with Ethereum node via JSON-RPC and loads chain data
+      // over an API call.
+      document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
+      await fetchAccountData();
+      document.querySelector("#btn-connect").removeAttribute("disabled")
+    }
+    /**
      * Connect wallet button pressed.
      */
     async function onConnect() {
@@ -1650,6 +1703,23 @@
         console.log("Could not get a wallet connection", e);
         return;
       }
+
+      // Subscribe to accounts change
+      provider.on("accountsChanged", (accounts) => {
+        fetchAccountData();
+      });
+
+      // Subscribe to chainId change
+      provider.on("chainChanged", (chainId) => {
+        fetchAccountData();
+      });
+
+      // Subscribe to networkId change
+      provider.on("networkChanged", (networkId) => {
+        fetchAccountData();
+      });
+
+      await refreshAccountData()
     }
 
     /**
@@ -1708,14 +1778,16 @@
 <hr>
 <div>
   <div class="row title">
+    <div class="col">Connected blockchain</div>
+    <div class="col">Selected account</div>
     <div class="col">Address</div>
-    <div class="col">-</div>
-    <div class="col">-</div>
+    <div class="col">Balance</div>
   </div>
   <div class="row">
-    <div class="col">col</div>
-    <div class="col">-</div>
-    <div class="col">-</div>
+    <div class="col" id="network-name"></div>
+    <div class="col" id="selected-account"></div>
+    <div class="col" id="address"></div>
+    <div class="col" id="balance"></div>
   </div>
 </div>
 </body>
