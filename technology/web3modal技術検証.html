@@ -1595,7 +1595,6 @@
 
     // Chosen wallet provider given by the dialog window
     let provider;
-    let signer;
 
     // Address of the selected account
     let selectedAccount;
@@ -1654,14 +1653,15 @@
       console.log("Web3 instance is", web3);
 
       // Get connected chain id from Ethereum node
-      // const chainId = await web3.eth.getChainId();
-      const chainId = await signer.getChainId();
+      const chainId = await web3.eth.getChainId();
       // Load chain information over an HTTP API
       const chainData = evmChains.getChain(chainId);
       document.querySelector("#network-name").textContent = chainData.name;
 
       // Get list of accounts of the connected wallet
-      selectedAccount = await signer.getAddress();
+      const accounts = await web3.eth.getAccounts();
+      console.log(accounts)
+      selectedAccount = accounts[0];
 
       // MetaMask does not give you all accounts, only the selected account
       // console.log("Got accounts", accounts);
@@ -1670,11 +1670,11 @@
       document.querySelector("#selected-account").textContent = selectedAccount.slice(1,14) + "...";
 
       // Go through all accounts and get their ETH balance
-      const balance = await signer.getBalance();
+      const balance = await web3.eth.getBalance(selectedAccount);
       // ethBalance is a BigNumber instance
       // https://github.com/indutny/bn.js/
-      // const ethBalance = web3.utils.fromWei(balance, "ether");
-      const humanFriendlyBalance = parseFloat(balance).toFixed(4);
+      const ethBalance = web3.utils.fromWei(balance, "ether");
+      const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4);
       // // Fill in the templated row and put in the document
       document.querySelector("#address").textContent = selectedAccount.slice(1,14) + "...";
       document.querySelector("#balance").textContent = humanFriendlyBalance;
@@ -1700,28 +1700,29 @@
     async function onConnect() {
       console.log("Opening a dialog", web3Modal);
       try {
-        const instance = await web3Modal.connect();
-        provider = new ethers.providers.Web3Provider(instance);
-        signer = provider.getSigner();
+        provider = await web3Modal.connect();
       } catch(e) {
         console.log("Could not get a wallet connection", e);
         return;
       }
-      //
-      // // Subscribe to accounts change
-      // provider.on("accountsChanged", (accounts) => {
-      //   fetchAccountData(provider);
-      // });
-      //
-      // // Subscribe to chainId change
-      // provider.on("chainChanged", (chainId) => {
-      //   fetchAccountData(provider);
-      // });
-      //
-      // // Subscribe to networkId change
-      // provider.on("networkChanged", (networkId) => {
-      //   fetchAccountData(provider);
-      // });
+
+      // Subscribe to accounts change
+      provider.on("accountsChanged", (accounts) => {
+        console.log("accountsChanged")
+        fetchAccountData();
+      });
+
+      // Subscribe to chainId change
+      provider.on("chainChanged", (chainId) => {
+        console.log("chainChanged")
+        fetchAccountData();
+      });
+
+      // Subscribe to networkId change
+      provider.on("networkChanged", (networkId) => {
+        console.log("networkChanged")
+        fetchAccountData();
+      });
 
       await refreshAccountData()
     }
