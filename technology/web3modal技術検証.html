@@ -1581,6 +1581,7 @@
   <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/fortmatic@2.0.6/dist/fortmatic.js"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 
   <script type="module">
     // Unpkg imports
@@ -1593,6 +1594,7 @@
     let web3Modal
     // Chosen wallet provider given by the dialog window
     let provider;
+    let signer;
 
     function init() {
 
@@ -1648,33 +1650,32 @@
       console.log("Web3 instance is", web3);
 
       // Get connected chain id from Ethereum node
-      const chainId = await web3.eth.getChainId();
+      // const chainId = await web3.eth.getChainId();
+      const chainId = await signer.getChainId();
       // Load chain information over an HTTP API
       const chainData = evmChains.getChain(chainId);
       document.querySelector("#network-name").textContent = chainData.name;
 
       // Get list of accounts of the connected wallet
-      const accounts = await web3.eth.getAccounts();
+      const selectedAccount = await signer.getAddress();
 
       // MetaMask does not give you all accounts, only the selected account
-      console.log("Got accounts", accounts);
-      const selectedAccount = accounts[0];
+      // console.log("Got accounts", accounts);
+      // const selectedAccount = accounts[0];
 
-      document.querySelector("#selected-account").textContent = selectedAccount;
+      document.querySelector("#selected-account").textContent = selectedAccount.slice(1,14) + "...";
 
       // Go through all accounts and get their ETH balance
-      [selectedAccount].map(async (address) => {
-        const balance = await web3.eth.getBalance(address);
-        // ethBalance is a BigNumber instance
-        // https://github.com/indutny/bn.js/
-        const ethBalance = web3.utils.fromWei(balance, "ether");
-        const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4);
-        // Fill in the templated row and put in the document
-        const clone = template.content.cloneNode(true);
-        document.querySelector("#address").textContent = address;
-        document.querySelector("#balance").textContent = humanFriendlyBalance;
-        accountContainer.appendChild(clone);
-      });
+      console.log(selectedAccount)
+      const balance = await signer.getBalance();
+      console.log(balance)
+      // ethBalance is a BigNumber instance
+      // https://github.com/indutny/bn.js/
+      // const ethBalance = web3.utils.fromWei(balance, "ether");
+      const humanFriendlyBalance = parseFloat(balance).toFixed(4);
+      // // Fill in the templated row and put in the document
+      document.querySelector("#address").textContent = selectedAccount.slice(1,14) + "...";
+      document.querySelector("#balance").textContent = humanFriendlyBalance;
     }
     /**
      * Fetch account data for UI when
@@ -1698,26 +1699,28 @@
       console.log("onConnect")
       console.log("Opening a dialog", web3Modal);
       try {
-        provider = await web3Modal.connect();
+        const instance = await web3Modal.connect();
+        provider = new ethers.providers.Web3Provider(instance);
+        signer = provider.getSigner();
       } catch(e) {
         console.log("Could not get a wallet connection", e);
         return;
       }
-
-      // Subscribe to accounts change
-      provider.on("accountsChanged", (accounts) => {
-        fetchAccountData();
-      });
-
-      // Subscribe to chainId change
-      provider.on("chainChanged", (chainId) => {
-        fetchAccountData();
-      });
-
-      // Subscribe to networkId change
-      provider.on("networkChanged", (networkId) => {
-        fetchAccountData();
-      });
+      //
+      // // Subscribe to accounts change
+      // provider.on("accountsChanged", (accounts) => {
+      //   fetchAccountData(provider);
+      // });
+      //
+      // // Subscribe to chainId change
+      // provider.on("chainChanged", (chainId) => {
+      //   fetchAccountData(provider);
+      // });
+      //
+      // // Subscribe to networkId change
+      // provider.on("networkChanged", (networkId) => {
+      //   fetchAccountData(provider);
+      // });
 
       await refreshAccountData()
     }
