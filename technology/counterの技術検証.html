@@ -24,7 +24,7 @@
           display: flex;
           justify-content: space-evenly;
           align-items: center;
-          min-width: 50vw;
+          /*min-width: 50vw;*/
           position: relative;
       }
       .container .box {
@@ -95,14 +95,16 @@
       </div>
     </div>},[Animate, rotateXByCounter])
   }
-  
+
   function Counters({count}){
-    // const digits = String(count).length
-    // return [...Array(digits).keys()].map((k, i)=>{
-    //   const count_ = String(count).substr(k,1)
-    //   return <Counter count={count_} key={i} />
-    // })
-    return <Counter count={count} />
+    const digits = String(count).length
+    return <div style={{display: "flex", flexDirection: "row-reverse", minWidth: "50vw"}}>
+      {[...Array(digits).keys()].map((k, i)=>{
+        const count_ = String(count).substr(-(k+1),1)
+        return <Counter count={count_} key={i} />
+      })}
+    </div>
+    // return <Counter count={count} />
   }
 
   function App(){
