@@ -49,18 +49,9 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-  function Counter({count, setCount}){
+  function useCounter(count){
     const [prevCount,setPrevCount] = React.useState(0)
-    // const [count,setCount] = React.useState(0)
     const deg = React.useMemo(()=>(count * 36 || 0),[count])
-    const update = () => {
-      setPrevCount(count)
-      setCount(count+3)
-    }
-    React.useEffect(()=>{
-      setCount(0)
-    },[])
-    console.log(count)
     const rotateXByCounter = {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }
@@ -83,8 +74,7 @@
         `}
       </style>
     },[deg]);
-    return React.useMemo(()=><div className="container">
-      <button onClick={update}>up</button>
+    const Counter = function() { return React.useMemo(()=><div className="container">
       <div className="box" style={rotateXByCounter}>
         <Animate />
         <span style={{"--i":0}}>0</span>
@@ -98,13 +88,22 @@
         <span style={{"--i":8}}>8</span>
         <span style={{"--i":9}}>9</span>
       </div>
-    </div>,[deg])
+    </div>,[deg]) }
+    return {Counter, setPrevCount}
   }
 
   function App(){
     const [count,setCount] = React.useState(0)
+    const {Counter, setPrevCount} = useCounter(count)
+    const update = () => {
+      setPrevCount(count)
+      setCount(count+3)
+    }
     console.log(count)
-    return <Counter count={count} setCount={setCount} />
+    return <>
+      <button onClick={update}>up</button>
+      <Counter />
+    </>
   }
 
   ReactDOM.render(
