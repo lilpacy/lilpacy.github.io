@@ -35,35 +35,61 @@
       /*        !*transform: perspective(1000px) rotateX(360deg) rotate(25deg);*!*/
       /*    }*/
       /*}*/
-      /*.container .box span {*/
-      /*    position: absolute;*/
-      /*    transform: rotateX(calc(var(--i) * 36deg)) translateZ(50px);*/
-      /*}*/
+      .container .box span {
+          position: absolute;
+          transform: rotateX(calc(var(--i) * 36deg)) translateZ(50px);
+      }
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
+  function useInterval(callback, delay) {
+    const savedCallback = React.useRef(callback)
+
+    // Remember the latest callback if it changes.
+    React.useLayoutEffect(() => {
+      savedCallback.current = callback
+    }, [callback])
+
+    // Set up the interval.
+    React.useEffect(() => {
+      // Don't schedule if no delay is specified.
+      // Note: 0 is a valid value for delay.
+      if (!delay && delay !== 0) {
+        return
+      }
+
+      const id = setInterval(() => savedCallback.current(), delay)
+
+      return () => clearInterval(id)
+    }, [delay])
+  }
   function App(){
     const [counter,setCounter] = React.useState(0)
-    const styles = {
-      position: "absolute",
-      transform: "rotateX(calc(var(--i) * 36deg)) translateZ(50px)",
+    const deg = counter * 36 || 0
+    const update = () => {
+      setCounter(counter+1)
     }
-    return <div className="container">
-      <div className="box">
-        <span style={{ ...styles, ...{"--i":0, background: "white"}}}>0</span>
-        <span style={{ ...styles, ...{"--i":1, background: "white"}}}>1</span>
-        <span style={{ ...styles, ...{"--i":2, background: "white"}}}>2</span>
-        <span style={{ ...styles, ...{"--i":3, background: "white"}}}>3</span>
-        <span style={{ ...styles, ...{"--i":4, background: "white"}}}>4</span>
-        <span style={{ ...styles, ...{"--i":5, background: "white"}}}>5</span>
-        <span style={{ ...styles, ...{"--i":6, background: "white"}}}>6</span>
-        <span style={{ ...styles, ...{"--i":7, background: "white"}}}>7</span>
-        <span style={{ ...styles, ...{"--i":8, background: "white"}}}>8</span>
-        <span style={{ ...styles, ...{"--i":9, background: "white"}}}>9</span>
+    useInterval(update, 1000)
+    console.log(deg)
+    const rotateXByCounter = {
+      transform: `perspective(1000px) rotateX(${-deg}deg)`
+    }
+    return React.useMemo(()=><div className="container">
+      <div className="box" style={rotateXByCounter}>
+        <span style={{"--i":0, background: "white"}}>0</span>
+        <span style={{"--i":1, background: "white"}}>1</span>
+        <span style={{"--i":2, background: "white"}}>2</span>
+        <span style={{"--i":3, background: "white"}}>3</span>
+        <span style={{"--i":4, background: "white"}}>4</span>
+        <span style={{"--i":5, background: "white"}}>5</span>
+        <span style={{"--i":6, background: "white"}}>6</span>
+        <span style={{"--i":7, background: "white"}}>7</span>
+        <span style={{"--i":8, background: "white"}}>8</span>
+        <span style={{"--i":9, background: "white"}}>9</span>
       </div>
-    </div>
+    </div>,[deg])
   }
 
   ReactDOM.render(
