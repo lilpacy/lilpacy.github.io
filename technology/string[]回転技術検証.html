@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
-  <title>Technology</title>
+  <title>string[]回転技術検証</title>
   <style id="style">
       @font-face {
           font-family: 'Lato';
@@ -1576,12 +1576,60 @@
   <link rel="stylesheet" href="css/codemirror.css">
   <link rel="stylesheet" href="css/main.min.css">
 
+  <style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container .box {
+        transform-style: preserve-3d;
+        animation: animate 25s linear infinite;
+    }
+    @keyframes animate {
+        /* 360 / 16 = 25 deg */
+        0% {
+            /*transform: perspective(1000px) rotateX(0deg) rotate(0deg);*/
+            transform: perspective(1000px) rotateX(0deg) rotate(25deg);
+        }
+        100% {
+            /*transform: perspective(1000px) rotateX(360deg) rotate(0deg);*/
+            transform: perspective(1000px) rotateX(360deg) rotate(25deg);
+        }
+    }
+    .container .box span {
+        position: absolute;
+        transform: rotateX(calc(var(--i) * 22.5deg)) translateZ(100px);
+    }
+  </style>
   <script></script>
 </head>
 <body data-theme="default">
-<h1>Technology</h1>
-<a href='technology/string%5B%5D%E5%9B%9E%E8%BB%A2%E6%8A%80%E8%A1%93%E6%A4%9C%E8%A8%BC.html'>2022-01-08 string[]回転技術検証</a><br />
-<a href='technology/web3modal%E6%8A%80%E8%A1%93%E6%A4%9C%E8%A8%BC.html'>2022-01-08 web3modal技術検証</a><br />
-<a href='technology/d3%2Dgeo%E3%81%A7%E3%81%AE%E5%9C%B0%E7%90%83%E3%81%AE%E5%9B%9E%E8%BB%A2%E6%8A%80%E8%A1%93%E6%A4%9C%E8%A8%BC.html'>2022-01-11 d3-geoでの地球の回転技術検証</a><br />
+<div class="container">
+  <div class="box">
+    <span style="--i:1;">CSS is Awesome</span>
+    <span style="--i:2;">CSS is Awesome</span>
+    <span style="--i:3;">CSS is Awesome</span>
+    <span style="--i:4;">CSS is Awesome</span>
+    <span style="--i:5;">CSS is Awesome</span>
+    <span style="--i:6;">CSS is Awesome</span>
+    <span style="--i:7;">CSS is Awesome</span>
+    <span style="--i:8;">CSS is Awesome</span>
+    <span style="--i:9;">CSS is Awesome</span>
+    <span style="--i:10;">CSS is Awesome</span>
+    <span style="--i:11;">CSS is Awesome</span>
+    <span style="--i:12;">CSS is Awesome</span>
+    <span style="--i:13;">CSS is Awesome</span>
+    <span style="--i:14;">CSS is Awesome</span>
+    <span style="--i:15;">CSS is Awesome</span>
+    <span style="--i:16;">CSS is Awesome</span>
+  </div>
+</div>
 </body>
 </html>
