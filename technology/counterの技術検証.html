@@ -64,6 +64,19 @@
     }
     const Animate = React.useCallback(() => {
       if(counter === undefined) return <></>
+      if(counter % 10 === 0) return <style>
+        {`
+          .box { animation: animate-${deg} 1s ease 1; }
+          @keyframes animate-${deg} {
+            0% {
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-36}deg);
+            }
+            100% {
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-360}deg);
+            }
+          }
+        `}
+      </style>
       return <style>
         {`
           .box { animation: animate-${deg} 1s ease 1; }
