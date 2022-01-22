@@ -53,7 +53,7 @@
     const [counter,setCounter] = React.useState(0)
     const deg = React.useMemo(()=>(counter * 36 || 0),[counter])
     const update = () => {
-      setCounter(counter+1)
+      setCounter(counter+3)
     }
     React.useEffect(()=>{
       setCounter(0)
@@ -64,28 +64,17 @@
     }
     const Animate = React.useCallback(() => {
       if(counter === undefined) return <></>
-      if(counter % 10 === 0) return <style>
-        {`
-          .box { animation: animate-${deg} 1s ease 1; }
-          @keyframes animate-${deg} {
-            0% {
-                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-36}deg);
-            }
-            100% {
-                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-360}deg);
-            }
-          }
-        `}
-      </style>
+      const prevX = deg-36
+      const newX = counter % 10 === 0 ? deg-360 : deg
       return <style>
         {`
           .box { animation: animate-${deg} 1s ease 1; }
           @keyframes animate-${deg} {
             0% {
-                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-36}deg);
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${prevX}deg);
             }
             100% {
-                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg}deg);
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${newX}deg);
             }
           }
         `}
