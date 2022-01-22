@@ -58,17 +58,16 @@
       if(!isPrevBigger) return
       setResetCount(resetCount+1)
     },[isPrevBigger])
-    const deg = React.useMemo(()=>{return ((36 * count) + (360 + resetCount) || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
+    const deg = React.useMemo(()=>{return ((36 * count) + (360 * resetCount) || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
     const rotateXByCounter = React.useMemo(()=>{return {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }},[deg])
     const Animate = React.useCallback(() => { // ここに問題
-      if(_key === 0) console.log(count, isPrevBigger, deg, prevCount)
       if(!count) return <></>
       const prevX = deg-36
       const newX = shouldBack ? deg-360 : deg
-      if(_key === 0) console.log(prevX, shouldBack, newX)
       // .boxが複数あって競合してるのでは？
+      console.log(deg % 36)
       return <style>
         {`
           .box-${_key} { animation: animate-${deg} 1s ease 1; }
