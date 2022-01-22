@@ -49,7 +49,7 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-  function Counter({count}){
+  function Counter({count, _key}){
     const [prevCount,setPrevCount] = React.useState(0)
     const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
     const deg = React.useMemo(()=>{return (36 * count || 0)},[count])
@@ -59,9 +59,10 @@
       const prevX = deg-36
       const shouldBack = count % 10 === 0 || isPrevBigger
       const newX = shouldBack ? deg-360 : deg
+      // .boxが複数あって競合してるのでは？
       return <style>
         {`
-          .box { animation: animate-${deg} 1s ease 1; }
+          .box-${_key} { animation: animate-${deg} 1s ease 1; }
           @keyframes animate-${deg} {
             0% {
                 transform: perspective(1000px) rotateY(-20deg) rotateX(-${prevX}deg);
@@ -80,7 +81,7 @@
       setPrevCount(count)
     },[count])
     return React.useMemo(()=>{return <div className="container">
-      <div className="box" style={rotateXByCounter}>
+      <div className={`box box-${_key}`} style={rotateXByCounter}>
         <Animate />
         <span style={{"--i":0}}>0</span>
         <span style={{"--i":1}}>1</span>
@@ -101,7 +102,7 @@
     return <div style={{display: "flex", flexDirection: "row-reverse", minWidth: "50vw"}}>
       {[...Array(digits).keys()].map((k, i)=>{
         const count_ = String(count).substr(-(k+1),1)
-        return <Counter count={count_} key={i} />
+        return <Counter count={count_} key={i} _key={i} />
       })}
     </div>
     // return <Counter count={count} />
