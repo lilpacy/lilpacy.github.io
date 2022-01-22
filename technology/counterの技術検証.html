@@ -53,6 +53,9 @@
     const [prevCount,setPrevCount] = React.useState(0)
     const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
     const deg = React.useMemo(()=>{return (36 * count || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
+    const rotateXByCounter = React.useMemo(()=>{return {
+      transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
+    }},[deg])
     const Animate = React.useCallback(() => { // ここに問題
       if(_key === 0) console.log(count, isPrevBigger, deg, prevCount)
       if(!count) return <></>
@@ -75,9 +78,6 @@
         `}
       </style>
     },[count, deg, isPrevBigger])
-    const rotateXByCounter = React.useMemo(()=>{return {
-      transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
-    }},[deg])
     React.useEffect(()=>{
       setPrevCount(count)
     },[count])
