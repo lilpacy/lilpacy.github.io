@@ -12,8 +12,8 @@ tech-links:
 			iconv -f UTF-8-MAC -t UTF-8 | \
 			nkf -WwMQ | tr = % | tr -d "\n" | sed -e "s/%%/%/g" `" \
 		TEXT="`gstat "technology/{}.html" | \
-			grep Birth | \
-			cut -d " " -f 3` {}" \
+			grep Modify | \
+			cut -d " " -f 2` {}" \
 		envsubst' | \
 	tee tmp/tech-links
 
@@ -36,8 +36,8 @@ diary-links:
 			iconv -f UTF-8-MAC -t UTF-8 | \
 			nkf -WwMQ | tr = % | tr -d "\n" | sed -e "s/%%/%/g" `" \
 		TEXT="`gstat "diary/{}.html" | \
-			grep Birth | \
-			cut -d " " -f 3` {}" \
+			grep Modify | \
+			cut -d " " -f 2` {}" \
 		envsubst' | \
 	tee tmp/diary-links
 
