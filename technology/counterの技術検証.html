@@ -24,25 +24,12 @@
       }
       .container .box {
           transform-style: preserve-3d;
-          display: inline-block;
           width: 4rem;
           height: 4rem;
           display: flex;
           justify-content: center;
           align-items: center;
-          /*animation: animate 1s linear infinite;*/
       }
-      /*@keyframes animate {*/
-      /*    !* 360 / 16 = 25 deg *!*/
-      /*    0% {*/
-      /*        transform: perspective(1000px) rotateX(0deg) rotate(0deg);*/
-      /*        !*transform: perspective(1000px) rotateX(0deg) rotate(25deg);*!*/
-      /*    }*/
-      /*    100% {*/
-      /*        transform: perspective(1000px) rotateX(360deg) rotate(0deg);*/
-      /*        !*transform: perspective(1000px) rotateX(360deg) rotate(25deg);*!*/
-      /*    }*/
-      /*}*/
       .container .box span {
           font-size: 2rem;
           position: absolute;
@@ -53,27 +40,6 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-  // function useInterval(callback, delay) {
-  //   const savedCallback = React.useRef(callback)
-  //
-  //   // Remember the latest callback if it changes.
-  //   React.useLayoutEffect(() => {
-  //     savedCallback.current = callback
-  //   }, [callback])
-  //
-  //   // Set up the interval.
-  //   React.useEffect(() => {
-  //     // Don't schedule if no delay is specified.
-  //     // Note: 0 is a valid value for delay.
-  //     if (!delay && delay !== 0) {
-  //       return
-  //     }
-  //
-  //     const id = setInterval(() => savedCallback.current(), delay)
-  //
-  //     return () => clearInterval(id)
-  //   }, [delay])
-  // }
   function App(){
     const [counter,setCounter] = React.useState(0)
     const deg = React.useMemo(()=>(counter * 36 || 0),[counter])
@@ -83,7 +49,6 @@
     React.useEffect(()=>{
       setCounter(0)
     },[])
-    // useInterval(update, 2000)
     console.log(counter)
     const rotateXByCounter = {
       transform: `perspective(1000px) rotateX(${-deg}deg)`
