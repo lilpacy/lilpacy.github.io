@@ -10,6 +10,10 @@
   <!-- Don't use this in production: -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+      :root {
+          --counter-width: 4rem;
+          --counter-height: 4rem;
+      }
       body {
           display: flex;
           justify-content: center;
@@ -25,20 +29,20 @@
       }
       .container .box {
           transform-style: preserve-3d;
-          width: 4rem;
-          height: 4rem;
+          width: var(--counter-width);
+          height: var(--counter-height);
           display: flex;
           justify-content: center;
           align-items: center;
       }
       .container .box span {
           box-sizing: border-box;
-          height: 4rem;
-          font-size: 2rem;
+          height: var(--counter-height);
+          font-size: calc(var(--counter-height)/2);
           position: absolute;
-          transform: rotateX(calc(var(--i) * 36deg)) translateZ(100px);
+          transform: rotateX(calc(var(--i) * 36deg)) translateZ(calc(var(--counter-height)*1.4));
           background-color: #00b0ff;
-          padding: 1rem 0;
+          padding: calc(var(--counter-height)/4) 0;
       }
   </style>
 </head>
