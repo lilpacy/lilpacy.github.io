@@ -32,9 +32,13 @@
           align-items: center;
       }
       .container .box span {
+          box-sizing: border-box;
+          height: 4rem;
           font-size: 2rem;
           position: absolute;
           transform: rotateX(calc(var(--i) * 36deg)) translateZ(100px);
+          background-color: #00b0ff;
+          padding: 1rem 0;
       }
   </style>
 </head>
@@ -52,7 +56,7 @@
     },[])
     console.log(counter)
     const rotateXByCounter = {
-      transform: `perspective(1000px) rotateX(${-deg}deg)`
+      transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }
     const Animate = React.useCallback(() => {
       if(counter === undefined) return <></>
@@ -61,10 +65,10 @@
           .box { animation: animate-${deg} 1s ease 1; }
           @keyframes animate-${deg} {
             0% {
-                transform: perspective(1000px) rotateX(-${deg-36}deg);
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg-36}deg);
             }
             100% {
-                transform: perspective(1000px) rotateX(-${deg}deg);
+                transform: perspective(1000px) rotateY(-20deg) rotateX(-${deg}deg);
             }
           }
         `}
@@ -74,16 +78,16 @@
       <button onClick={update}>up</button>
       <div className="box" style={rotateXByCounter}>
         <Animate />
-        <span style={{"--i":0, background: "white"}}>0</span>
-        <span style={{"--i":1, background: "white"}}>1</span>
-        <span style={{"--i":2, background: "white"}}>2</span>
-        <span style={{"--i":3, background: "white"}}>3</span>
-        <span style={{"--i":4, background: "white"}}>4</span>
-        <span style={{"--i":5, background: "white"}}>5</span>
-        <span style={{"--i":6, background: "white"}}>6</span>
-        <span style={{"--i":7, background: "white"}}>7</span>
-        <span style={{"--i":8, background: "white"}}>8</span>
-        <span style={{"--i":9, background: "white"}}>9</span>
+        <span style={{"--i":0}}>0</span>
+        <span style={{"--i":1}}>1</span>
+        <span style={{"--i":2}}>2</span>
+        <span style={{"--i":3}}>3</span>
+        <span style={{"--i":4}}>4</span>
+        <span style={{"--i":5}}>5</span>
+        <span style={{"--i":6}}>6</span>
+        <span style={{"--i":7}}>7</span>
+        <span style={{"--i":8}}>8</span>
+        <span style={{"--i":9}}>9</span>
       </div>
     </div>,[deg])
   }
