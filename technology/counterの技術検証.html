@@ -50,9 +50,11 @@
 <div id="root"></div>
 <script type="text/babel">
   function App(){
+    const [prevCount,setPrevCount] = React.useState(0)
     const [count,setCount] = React.useState(0)
     const deg = React.useMemo(()=>(count * 36 || 0),[count])
     const update = () => {
+      setPrevCount(count)
       setCount(count+3)
     }
     React.useEffect(()=>{
@@ -65,7 +67,8 @@
     const Animate = React.useCallback(() => {
       if(count === undefined) return <></>
       const prevX = deg-36
-      const newX = count % 10 === 0 ? deg-360 : deg
+      const shouldBack = count % 10 === 0 || (count%10) < (prevCount%10)
+      const newX = shouldBack ? deg-360 : deg
       return <style>
         {`
           .box { animation: animate-${deg} 1s ease 1; }
