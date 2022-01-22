@@ -51,16 +51,10 @@
 <script type="text/babel">
   function Counter({count}){
     const [prevCount,setPrevCount] = React.useState(0)
-    const [isPrevBigger, setIsPrevBigger] = React.useState(undefined)
-    React.useEffect(()=>{
-      setIsPrevBigger((count%10) < (prevCount%10))
-      setPrevCount(count)
-    },[count])
-    const deg = React.useMemo(()=>(count * 36 || 0),[count])
-    const rotateXByCounter = {
-      transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
-    }
-    const Animate = React.useCallback(() => {
+    const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
+    const deg = React.useMemo(()=>{return (36 * count || 0)},[count])
+    const Animate = React.useCallback(() => { // ここに問題
+      console.log(count, isPrevBigger, deg, prevCount)
       if(!count) return <></>
       const prevX = deg-36
       const shouldBack = count % 10 === 0 || isPrevBigger
@@ -78,8 +72,14 @@
           }
         `}
       </style>
-    },[deg]);
-    return React.useMemo(()=><div className="container">
+    },[count, deg, isPrevBigger])
+    const rotateXByCounter = React.useMemo(()=>{return {
+      transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
+    }},[deg])
+    React.useEffect(()=>{
+      setPrevCount(count)
+    },[count])
+    return React.useMemo(()=>{return <div className="container">
       <div className="box" style={rotateXByCounter}>
         <Animate />
         <span style={{"--i":0}}>0</span>
@@ -93,7 +93,16 @@
         <span style={{"--i":8}}>8</span>
         <span style={{"--i":9}}>9</span>
       </div>
-    </div>,[deg])
+    </div>},[Animate, rotateXByCounter])
+  }
+  
+  function Counters({count}){
+    // const digits = String(count).length
+    // return [...Array(digits).keys()].map((k, i)=>{
+    //   const count_ = String(count).substr(k,1)
+    //   return <Counter count={count_} key={i} />
+    // })
+    return <Counter count={count} />
   }
 
   function App(){
@@ -104,7 +113,7 @@
     console.log(count)
     return <>
       <button onClick={update}>up</button>
-      <Counter count={count} />
+      <Counters count={count} />
     </>
   }
 
