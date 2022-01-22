@@ -22,7 +22,7 @@
       }
       .container .box {
           transform-style: preserve-3d;
-          /*animation: animate 25s linear infinite;*/
+          /*animation: animate 1s linear infinite;*/
       }
       /*@keyframes animate {*/
       /*    !* 360 / 16 = 25 deg *!*/
@@ -71,13 +71,33 @@
     const update = () => {
       setCounter(counter+1)
     }
-    useInterval(update, 1000)
-    console.log(deg)
+    React.useEffect(()=>{
+      setCounter(0)
+    },[])
+    useInterval(update, 2000)
+    console.log(counter)
     const rotateXByCounter = {
       transform: `perspective(1000px) rotateX(${-deg}deg)`
     }
+    const Animate = React.useCallback(() => {
+      if(counter === undefined) return <></>
+      return <style>
+        {`
+          .box { animation: animate-${deg} 1s ease 1; }
+          @keyframes animate-${deg} {
+            0% {
+                transform: perspective(1000px) rotateX(-${deg-36}deg) rotate(0deg);
+            }
+            100% {
+                transform: perspective(1000px) rotateX(-${deg}deg) rotate(0deg);
+            }
+          }
+        `}
+      </style>
+    },[deg]);
     return React.useMemo(()=><div className="container">
       <div className="box" style={rotateXByCounter}>
+        <Animate />
         <span style={{"--i":0, background: "white"}}>0</span>
         <span style={{"--i":1, background: "white"}}>1</span>
         <span style={{"--i":2, background: "white"}}>2</span>
