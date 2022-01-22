@@ -51,14 +51,19 @@
 <script type="text/babel">
   function useCounter(count){
     const [prevCount,setPrevCount] = React.useState(0)
+    const [isPrevBigger, setIsPrevBigger] = React.useState(undefined)
+    React.useEffect(()=>{
+      setIsPrevBigger((count%10) < (prevCount%10))
+      setPrevCount(count)
+    },[count])
     const deg = React.useMemo(()=>(count * 36 || 0),[count])
     const rotateXByCounter = {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }
     const Animate = React.useCallback(() => {
-      if(count === undefined) return <></>
+      if(!count) return <></>
       const prevX = deg-36
-      const shouldBack = count % 10 === 0 || (count%10) < (prevCount%10)
+      const shouldBack = count % 10 === 0 || isPrevBigger
       const newX = shouldBack ? deg-360 : deg
       return <style>
         {`
@@ -89,16 +94,15 @@
         <span style={{"--i":9}}>9</span>
       </div>
     </div>,[deg]) }
-    return {Counter, setPrevCount}
+    return {Counter}
   }
 
   function App(){
     const [count,setCount] = React.useState(0)
-    const {Counter, setPrevCount} = useCounter(count)
     const update = () => {
-      setPrevCount(count)
       setCount(count+3)
     }
+    const {Counter} = useCounter(count)
     console.log(count)
     return <>
       <button onClick={update}>up</button>
