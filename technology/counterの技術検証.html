@@ -67,7 +67,7 @@
       const prevX = deg-36
       const newX = shouldBack ? deg-360 : deg
       // .boxが複数あって競合してるのでは？
-      console.log(deg % 36)
+      console.log(prevCount, count)
       return <style>
         {`
           .box-${_key} { animation: animate-${deg} 1s ease 1; }
@@ -106,7 +106,7 @@
     const digits = String(count).length
     return <div style={{display: "flex", flexDirection: "row-reverse", justifyContent: "space-evenly", minWidth: "50vw"}}>
       {[...Array(digits).keys()].map((k, i)=>{
-        const count_ = String(count).substr(-(k+1),1)
+        const count_ = parseInt(String(count).substr(-(k+1),1))
         return <Counter count={count_} key={i} _key={i} />
       })}
     </div>
@@ -116,7 +116,7 @@
   function App(){
     const [count,setCount] = React.useState(0)
     const update = () => {
-      setCount(count+1)
+      setCount(count+3)
     }
     console.log(count)
     return <>
