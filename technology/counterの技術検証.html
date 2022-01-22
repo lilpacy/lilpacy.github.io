@@ -22,42 +22,46 @@
       }
       .container .box {
           transform-style: preserve-3d;
-          animation: animate 25s linear infinite;
+          /*animation: animate 25s linear infinite;*/
       }
-      @keyframes animate {
-          /* 360 / 16 = 25 deg */
-          0% {
-              transform: perspective(1000px) rotateX(0deg) rotate(0deg);
-              /*transform: perspective(1000px) rotateX(0deg) rotate(25deg);*/
-          }
-          100% {
-              transform: perspective(1000px) rotateX(360deg) rotate(0deg);
-              /*transform: perspective(1000px) rotateX(360deg) rotate(25deg);*/
-          }
-      }
-      .container .box span {
-          position: absolute;
-          transform: rotateX(calc(var(--i) * 36deg)) translateZ(50px);
-      }
+      /*@keyframes animate {*/
+      /*    !* 360 / 16 = 25 deg *!*/
+      /*    0% {*/
+      /*        transform: perspective(1000px) rotateX(0deg) rotate(0deg);*/
+      /*        !*transform: perspective(1000px) rotateX(0deg) rotate(25deg);*!*/
+      /*    }*/
+      /*    100% {*/
+      /*        transform: perspective(1000px) rotateX(360deg) rotate(0deg);*/
+      /*        !*transform: perspective(1000px) rotateX(360deg) rotate(25deg);*!*/
+      /*    }*/
+      /*}*/
+      /*.container .box span {*/
+      /*    position: absolute;*/
+      /*    transform: rotateX(calc(var(--i) * 36deg)) translateZ(50px);*/
+      /*}*/
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-  
   function App(){
+    const [counter,setCounter] = React.useState(0)
+    const styles = {
+      position: "absolute",
+      transform: "rotateX(calc(var(--i) * 36deg)) translateZ(50px)",
+    }
     return <div className="container">
       <div className="box">
-        <span style={{"--i":0}}>0</span>
-        <span style={{"--i":1}}>1</span>
-        <span style={{"--i":2}}>2</span>
-        <span style={{"--i":3}}>3</span>
-        <span style={{"--i":4}}>4</span>
-        <span style={{"--i":5}}>5</span>
-        <span style={{"--i":6}}>6</span>
-        <span style={{"--i":7}}>7</span>
-        <span style={{"--i":8}}>8</span>
-        <span style={{"--i":9}}>9</span>
+        <span style={{ ...styles, ...{"--i":0, background: "white"}}}>0</span>
+        <span style={{ ...styles, ...{"--i":1, background: "white"}}}>1</span>
+        <span style={{ ...styles, ...{"--i":2, background: "white"}}}>2</span>
+        <span style={{ ...styles, ...{"--i":3, background: "white"}}}>3</span>
+        <span style={{ ...styles, ...{"--i":4, background: "white"}}}>4</span>
+        <span style={{ ...styles, ...{"--i":5, background: "white"}}}>5</span>
+        <span style={{ ...styles, ...{"--i":6, background: "white"}}}>6</span>
+        <span style={{ ...styles, ...{"--i":7, background: "white"}}}>7</span>
+        <span style={{ ...styles, ...{"--i":8, background: "white"}}}>8</span>
+        <span style={{ ...styles, ...{"--i":9, background: "white"}}}>9</span>
       </div>
     </div>
   }
