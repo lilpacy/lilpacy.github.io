@@ -56,23 +56,22 @@
     const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
     const shouldBack = React.useMemo(()=>{return count % 10 === 0 || isPrevBigger},[count, isPrevBigger])
     React.useEffect(()=>{
-      if(!isPrevBigger) return
+      if(!shouldBack) return
       setResetCount(resetCount+1)
-    },[isPrevBigger])
+    },[shouldBack])
     // const deg = React.useMemo(()=>{return ((36 * count) + (360 * resetCount) || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
     React.useEffect(()=>{
-      if(!count) return
+      if(count === undefined || count === null) return
       setDeg((36 * count) + (360 * resetCount))
     },[count, resetCount])
     const rotateXByCounter = React.useMemo(()=>{return {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }},[deg])
     const Animate = React.useCallback(() => { // ここに問題
-      if(!count) return <></>
+      if(_key===1)console.log(deg, "key1, deg")
+      if(count === undefined || count === null) return <></>
       const prevX = deg-36
       const newX = shouldBack ? deg-360 : deg
-      // .boxが複数あって競合してるのでは？
-      console.log(prevCount, count)
       return <style>
         {`
           .box-${_key} { animation: animate-${deg} 1s ease 1; }
@@ -86,7 +85,7 @@
           }
         `}
       </style>
-    },[count, deg, isPrevBigger])
+    },[count, deg, shouldBack])
     React.useEffect(()=>{
       setPrevCount(count)
     },[count])
