@@ -52,13 +52,18 @@
   function Counter({count, _key}){
     const [prevCount,setPrevCount] = React.useState(0)
     const [resetCount, setResetCount] = React.useState(0)
+    const [deg, setDeg] = React.useState(0)
     const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
     const shouldBack = React.useMemo(()=>{return count % 10 === 0 || isPrevBigger},[count, isPrevBigger])
     React.useEffect(()=>{
       if(!isPrevBigger) return
       setResetCount(resetCount+1)
     },[isPrevBigger])
-    const deg = React.useMemo(()=>{return ((36 * count) + (360 * resetCount) || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
+    // const deg = React.useMemo(()=>{return ((36 * count) + (360 * resetCount) || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
+    React.useEffect(()=>{
+      if(!count) return
+      setDeg((36 * count) + (360 * resetCount))
+    },[count, resetCount])
     const rotateXByCounter = React.useMemo(()=>{return {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }},[deg])
