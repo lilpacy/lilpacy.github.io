@@ -52,18 +52,19 @@
   function Counter({count, _key}){
     const [prevCount,setPrevCount] = React.useState(0)
     const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
-    const deg = React.useMemo(()=>{return (36 * count || 0)},[count])
+    const deg = React.useMemo(()=>{return (36 * count || 0)},[count]) // countが10を超えなくなった影響でdegに影響が出てる
     const Animate = React.useCallback(() => { // ここに問題
-      console.log(count, isPrevBigger, deg, prevCount)
+      if(_key === 0) console.log(count, isPrevBigger, deg, prevCount)
       if(!count) return <></>
       const prevX = deg-36
       const shouldBack = count % 10 === 0 || isPrevBigger
       const newX = shouldBack ? deg-360 : deg
+      if(_key === 0) console.log(prevX, shouldBack, newX)
       // .boxが複数あって競合してるのでは？
       return <style>
         {`
-          .box-${_key} { animation: animate-${deg} 1s ease 1; }
-          @keyframes animate-${deg} {
+          .box-${_key} { animation: animate-${prevX}-${newX} 1s ease 1; }
+          @keyframes animate-${prevX}-${newX} {
             0% {
                 transform: perspective(1000px) rotateY(-20deg) rotateX(-${prevX}deg);
             }
@@ -99,7 +100,7 @@
 
   function Counters({count}){
     const digits = String(count).length
-    return <div style={{display: "flex", flexDirection: "row-reverse", minWidth: "50vw"}}>
+    return <div style={{display: "flex", flexDirection: "row-reverse", justifyContent: "space-evenly", minWidth: "50vw"}}>
       {[...Array(digits).keys()].map((k, i)=>{
         const count_ = String(count).substr(-(k+1),1)
         return <Counter count={count_} key={i} _key={i} />
