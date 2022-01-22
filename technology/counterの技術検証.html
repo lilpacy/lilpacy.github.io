@@ -50,22 +50,22 @@
 <div id="root"></div>
 <script type="text/babel">
   function App(){
-    const [counter,setCounter] = React.useState(0)
-    const deg = React.useMemo(()=>(counter * 36 || 0),[counter])
+    const [count,setCount] = React.useState(0)
+    const deg = React.useMemo(()=>(count * 36 || 0),[count])
     const update = () => {
-      setCounter(counter+3)
+      setCount(count+3)
     }
     React.useEffect(()=>{
-      setCounter(0)
+      setCount(0)
     },[])
-    console.log(counter)
+    console.log(count)
     const rotateXByCounter = {
       transform: `perspective(1000px) rotateY(-20deg) rotateX(${-deg}deg)`
     }
     const Animate = React.useCallback(() => {
-      if(counter === undefined) return <></>
+      if(count === undefined) return <></>
       const prevX = deg-36
-      const newX = counter % 10 === 0 ? deg-360 : deg
+      const newX = count % 10 === 0 ? deg-360 : deg
       return <style>
         {`
           .box { animation: animate-${deg} 1s ease 1; }
