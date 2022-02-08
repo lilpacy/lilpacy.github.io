@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1">
+
+  <style>
+      :root {
+          --const: 20px
+      }
+      
+      html {
+          box-sizing: border-box;
+          height: 100%; /* 全ての親要素に指定がないとheightの%指定が効かない */
+      }
+
+      body {
+          height: 100%; /* 全ての親要素に指定がないとheightの%指定が効かない */
+      }
+
+      /* 上記で指定してなくてもuser-agent-stylesheet(ブラウザのデフォルトスタイル)は勝手に反映される */
+      /* https://gyazo.com/b45a68ca09f4112f0206cb2cdad68170.png */
+
+      body, div {
+          border: solid 2px #aaa;
+      }
+
+      .w-20pe {
+          width: 20%;
+          height: var(--const);
+          background-color: red;
+      }
+
+      .w-20v {
+          width: 20vw;
+          height: var(--const);
+          background-color: blue;
+      }
+
+      .h-20pe {
+          width: var(--const);
+          height: 20%;
+          background-color: orange;
+      }
+
+      .h-20v {
+          width: var(--const);
+          height: 20vh;
+          background-color: deepskyblue;
+      }
+  </style>
+  <script></script>
+</head>
+<body>
+# width
+<div class="w-20pe"></div>
+<!-- 空のdivだけだと高さも横幅も0 -->
+<div></div>
+<!-- childにwidthを%指定するとなぜか空の親要素のwidthが横幅いっぱいになる -->
+<!-- 表示領域の幅が自動的に反映されてるっぽい -->
+<!-- https://gyazo.com/d710b5b4cfa9e93edaba1f6298cc6303.png -->
+<!-- widthとheightで%指定の挙動が違う -->
+<div><div class="w-20pe"></div></div>
+<!-- 親要素にwidthを指定するとその親の20%になる -->
+<div style="width: 100px"><div class="w-20pe"></div></div>
+
+# widthがchildの方が大きい場合
+<div style="width: 100px"><div style="width: 200px"></div></div>
+
+# width vw (同じことをvwでやった場合)
+<div class="w-20v"></div>
+<div></div>
+<div><div class="w-20v"></div></div>
+<div style="width: 100px"><div class="w-20v"></div></div>
+
+# height
+<div class="h-20pe"></div>
+<!-- height指定のないdivのchildにすると高さが0になる -->
+<div><div class="h-20pe"></div></div>
+<!-- 親要素にheightを指定するとその親の20%になる -->
+<div style="height: 100px"><div class="h-20pe"></div></div>
+
+# heightがchildの方が大きい場合
+<div style="height: 100px"><div style="height: 200px"></div></div>
+
+# height vh (同じことをvhでやった場合)
+<div class="h-20v"></div>
+<div><div class="h-20v"></div></div>
+<div style="height: 100px"><div class="h-20v"></div></div>
+
+# appendix display
+<!-- ちなみに、指定しなくてもblock要素にはdisplay: blockが勝手に割り当てられている -->
+<p></p>
+<!-- こっちはdisplay: inline -->
+<span></span>
+</body>
+</html>
