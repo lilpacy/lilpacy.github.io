@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
+  <style>
+      html, body {
+          height: 100%;
+      }
+      div {
+          border: solid 2px #aaa;
+      }
+  </style>
+  <script></script>
+</head>
+<body data-theme="default">
+指定なしとautoの違いは明示するかどうかだけっぽい
+<hr>
+# width
+<div></div>
+<div style="width: auto">autoだとbox-sizingいらない</div>
+<div style="width: 100%">100%だとbox-sizingないとはみ出す</div>
+
+<div><div></div></div>
+<div><div style="width: auto"></div></div>
+<div><div style="width: 100%"></div></div>
+
+# height
+<div style="background-color: blue"></div>
+<div style="height: auto; background-color: green"></div>
+<div style="height: 100%; background-color: deepskyblue"></div>
+
+<div><div style="background-color: red"></div></div>
+<div><div style="height: auto; background-color: orange"></div></div>
+<div><div style="height: 100%; background-color: yellow"></div></div>
+</body>
+</html>
