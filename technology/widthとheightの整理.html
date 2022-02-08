@@ -66,6 +66,14 @@
 <!-- 空のdivを挟んだ場合、挟まれた空のdivのheightは目一杯小さくなった結果、borderの4pxだけになる -->
 <div style="height: 10px"><div><div></div></div></div>
 
+# empty div x display
+<!-- widthは目一杯広がる -->
+<div style="display: block"></div>
+<!-- 0px 結果としてborderの4 x 4-->
+<div style="display: inline-block"></div>
+<!-- auto 結果として 4 x 22 -->
+<div style="display: inline"></div>
+
 # width
 <div class="w-20pe"></div>
 <!-- https://gyazo.com/d710b5b4cfa9e93edaba1f6298cc6303.png -->
