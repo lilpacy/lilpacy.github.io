@@ -52,12 +52,16 @@
   <script></script>
 </head>
 <body>
+# empty div
+<!-- 空のdivだけだと高さ0で横幅は目一杯広がる -->
+<!-- https://gyazo.com/2103ce94a4bb33b0f4c0b0c09cdd4612.png -->
+<div></div>
+<!-- 親をルートまで辿ってwidthの指定がなかった場合、width=画面幅になる -->
+<!-- が、親に指定があった場合、その親目一杯に広がる(この場合borderを除いた496px) -->
+<div style="width: 500px"><div></div></div>
+
 # width
 <div class="w-20pe"></div>
-<!-- 空のdivだけだと高さも横幅も0 -->
-<div></div>
-<!-- childにwidthを%指定するとなぜか空の親要素のwidthが横幅いっぱいになる -->
-<!-- 表示領域の幅が自動的に反映されてるっぽい -->
 <!-- https://gyazo.com/d710b5b4cfa9e93edaba1f6298cc6303.png -->
 <!-- widthとheightで%指定の挙動が違う -->
 <div><div class="w-20pe"></div></div>
