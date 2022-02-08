@@ -59,6 +59,12 @@
 <!-- 親をルートまで辿ってwidthの指定がなかった場合、width=画面幅になる -->
 <!-- が、親に指定があった場合、その親目一杯に広がる(この場合borderを除いた496px) -->
 <div style="width: 500px"><div></div></div>
+<!-- 間に指定なしのdivを挟んでも変わらない -->
+<div style="width: 500px"><div><div></div></div></div>
+<!-- heightの場合は逆で目一杯小さくなる -->
+<div style="height: 10px"><div></div></div>
+<!-- 空のdivを挟んだ場合、挟まれた空のdivのheightは目一杯小さくなった結果、borderの4pxだけになる -->
+<div style="height: 10px"><div><div></div></div></div>
 
 # width
 <div class="w-20pe"></div>
