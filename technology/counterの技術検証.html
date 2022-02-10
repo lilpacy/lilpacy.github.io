@@ -53,8 +53,8 @@
     const [prevCount,setPrevCount] = React.useState(0)
     const [resetCount, setResetCount] = React.useState(undefined)
     const [deg, setDeg] = React.useState(0)
-    const isPrevBigger = React.useMemo(()=>{return (count%10) < (prevCount%10)},[count])
-    const shouldBack = React.useMemo(()=>{return count % 10 === 0 || isPrevBigger},[count, isPrevBigger])
+    const isPrevBigger = (count%10) < (prevCount%10)
+    const shouldBack = count % 10 === 0 || isPrevBigger
     React.useEffect(()=>{
       if(!shouldBack) return setResetCount(1)
       setResetCount(resetCount+1)
@@ -73,6 +73,7 @@
       if(count === undefined || count === null) return <></>
       const prevX = deg-36
       const newX = shouldBack ? deg-360 : deg
+      if(_key===0)console.log(deg,prevX,newX)
       return <style>
         {`
           .box-${_key} { animation: animate-${deg} 1s ease 1; }

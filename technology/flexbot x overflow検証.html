@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
+  <style>
+      * {
+          box-sizing: border-box;
+          font-family: 'Lato', 'helvetica', 'Hiragino Kaku Gothic Pro', 'arial', 'sans-serif';
+          -webkit-font-smoothing: antialiased;
+          font-weight: 500;
+      }
+
+      html {
+          height: 100%;
+      }
+
+      body {
+          height: 100%;
+      }
+
+      div {
+          border: solid 1px #111
+      }
+
+      .container {
+          padding: 2px;
+          background-color: #9effff;
+          height: 300px;
+          overflow-x: scroll;
+      }
+
+      .content {
+          padding: 2px;
+          background-color: wheat;
+          display: flex;
+          flex-direction: row;
+          width: 2200px;
+          height: 200px;
+          overflow-x: scroll;
+      }
+
+      .box {
+          background-color: ghostwhite;
+          min-width: 500px;
+          height: 100px;
+      }
+  </style>
+  <script></script>
+</head>
+<body data-theme="default">
+<pre>
+flexboxの中ではwidthは効かない。min-widthは効く
+overflow-x: scrollを親に指定し、子にはwidth/min-widthが効いていることが必要
+</pre>
+<div class="container">
+  <div class="content">
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+    <div class="box">HOGE FUGA PIYO HOGE FUGA PIYO HOGE FUGA PIYO</div>
+  </div>
+</div>
+</body>
+</html>
