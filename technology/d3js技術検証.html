@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
+  <style>
+      * {
+          box-sizing: border-box;
+      }
+      html {
+          height: 100%;
+      }
+      body {
+          height: 100%;
+      }
+  </style>
+  <script type="module">
+    import * as d3 from "https://cdn.skypack.dev/d3@7";
+
+    var svg = d3.select("body")
+      .append("svg").attr("width",700).attr("height",400);
+    var circle = svg.append("circle")
+      .attr("cx",300)
+      .attr("cy",200)
+      .attr("r",180)
+      .attr("fill","#28cca3") // 塗りつぶしの色
+      .attr("stroke","#2efac7") // 枠の色
+      .attr("stroke-width",10); // 枠の太さ
+  </script>
+</head>
+<body data-theme="default">
+</body>
+</html>
