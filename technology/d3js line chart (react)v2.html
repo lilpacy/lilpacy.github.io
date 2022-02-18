@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="module">
+    import * as d3 from "https://cdn.skypack.dev/d3@7";
+    window.d3 = d3
+  </script>
+  <style>
+      * {
+          box-sizing: border-box;
+      }
+      html {
+          height: min-content;
+      }
+      body {
+          height: min-content;
+      }
+      .line {
+          fill: none;
+          stroke: steelblue;
+          stroke-width: 2px;
+      }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+  // set the dimensions and margins of the graph
+  var margin = {top: 20, right: 20, bottom: 50, left: 70},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;;
+
+  // parse the date / time
+  var parseTime = d3.timeParse("%d-%b-%y");
+
+  // set the ranges
+  var x = d3.scaleTime().range([0, width]);
+  var y = d3.scaleLinear().range([height, 0]);
+
+  // define the line
+  var valueline = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.close); });
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svgFunc = (data) => {
+    return function(ref) {
+      d3.select(ref)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+      if(!data) return;
+
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y.domain([0, d3.max(data, function(d) { return d.close; })]);
+
+      // Add the valueline path.
+      d3.select(ref).append("path")
+        .data([data])
+        .attr("class", "line")
+        .attr("d", valueline);
+
+      // Add the x Axis
+      d3.select(ref).append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      // Add the y Axis
+      d3.select(ref).append("g")
+        .call(d3.axisLeft(y));
+    }
+  }
+
+  const MySvg = () => {
+    const [data, setData] = React.useState(undefined)
+    React.useEffect(() => {
+      // Get the data
+      d3.csv("data.csv").then(function(data) {
+        // format the data
+        const newData = data.map(d => { return {
+          date: parseTime(d.date),
+          close: +d.close
+        }});
+        setData(newData)
+      });
+    },[])
+    return <svg
+      ref={svgFunc(data)}
+      width={width + margin.left + margin.right}
+      height={height + margin.top + margin.bottom}
+    />
+  }
+
+  ReactDOM.render(
+    <MySvg/>,
+    document.getElementById('root')
+  );
+
+</script>
+<!--
+  Note: this page is a great way to try React but it's not suitable for production.
+  It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+  Read this section for a production-ready setup with JSX:
+  https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+  In a larger project, you can use an integrated toolchain that includes JSX instead:
+  https://reactjs.org/docs/create-a-new-react-app.html
+
+  You can also use React without JSX, in which case you can remove Babel:
+  https://reactjs.org/docs/react-without-jsx.html
+-->
+</body>
+</html>
