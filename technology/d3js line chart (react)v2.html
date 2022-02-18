@@ -55,13 +55,6 @@
   // moves the 'group' element to the top left margin
   var svgFunc = (data) => {
     return function(ref) {
-      d3.select(ref)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
       if(!data) return;
 
       // Scale the range of the data
@@ -99,10 +92,14 @@
       });
     },[])
     return <svg
-      ref={svgFunc(data)}
       width={width + margin.left + margin.right}
       height={height + margin.top + margin.bottom}
-    />
+    >
+      <g
+        ref={svgFunc(data)}
+        transform={"translate(" + margin.left + "," + margin.top + ")"}
+      />
+    </svg>
   }
 
   ReactDOM.render(
